@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Tracfone Breakout</title>
+	<script src="phaser-arcade-physics.min.js"></script>
+	<script src="Boot.js?123"></script>
+	<script src="Turn.js"></script>
+	<script src="Bonus.js?123"></script>
+	<script src="Preloader.js?123"></script>
+	<script src="Menu.js?123"></script>
+	<script src="EndMenu.js?123"></script>
+	<script src="EndFrame.js?123"></script>
+	<script src="Game.js?123"></script>
+	<script src="mraid.js"></script>
+	<!-- delete the config for launch -->
+	<script src="config.js"></script>
+
+
+	<style>
+		
+		@font-face {
+			font-family: game_font;
+			src: url('fonts/198O.ttf');
+		}
+		
+	</style>
+
+</head>
+
+<body>
+	<script type="text/javascript">
+		window.onload = function () {
+
+			/********** TO MAKE SURE MRAID LOADER TRIGGERS ************/
+
+			function init() {
+				var loadedEvent = (function (e) {
+					var matchedEvent;
+
+					function match(event) {
+						if (e === event.event) {
+							matchedEvent = event;
+							return false;
+						}
+
+						return true;
+					}
+
+					mraid.configuration.events.every(match);
+					return matchedEvent || {
+						event: 'loaded'
+					};
+				})('loaded');
+
+				if (loadedEvent) mraid.trackEvent(loadedEvent);
+				document.body.classList.add(mraid.platform);
+			}
+
+			mraid.addEventListener('ready', init);
+
+			game = new Phaser.Game(640, 1136, Phaser.CANVAS, '');
+			//	STATES 
+			game.state.add('Boot', Run.Boot);
+			game.state.add('Preloader', Run.Preloader);
+			game.state.add('Bonus', Run.Bonus);
+			game.state.add('StartMenu', Run.StartMenu);
+			game.state.add('Game', Run.Game);
+			game.state.add('EndMenu', Run.EndMenu);
+			game.state.add('EndFrame', Run.EndFrame);
+			game.state.add('Turn', Run.Turn);
+
+			//	default starting state
+			game.state.start('Boot');
+
+		};
+	</script>
+
+</body>
+
+</html>
